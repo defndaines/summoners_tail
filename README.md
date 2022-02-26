@@ -23,6 +23,13 @@ RG_API=RGAPI-### iex -S mix
 
 ## Limitations
 
+### Validation
+
+The code isn't doing much defensive validation at this time. For example, if a
+function expects an ID, it assumes it is being passed a valid ID returned by a
+previous API call. Only the summoner name is escaped, partly because the API
+supports spaces in names and so this needed to be covered.
+
 ### SSL Cert
 
 Note that the first implementation is using straight OTP `:httpc` for making
