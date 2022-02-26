@@ -5,7 +5,7 @@ defmodule RiotAPI.Summoner do
   Documentation for the latest version of the API at the time of writing is
   https://developer.riotgames.com/apis#summoner-v4
 
-  When requesting summoner information, a region must always be provided. Valid regions at this
+  When requesting summoner information, a region must always be provided. Known regions at this
   time are: "BR1", "EUN1", "EUW1", "JP1", "LA1", "LA2", "NA1", "OC1", "RU", "TR1".
 
   The SummonerDTO, as of v4, is a map like the following:
