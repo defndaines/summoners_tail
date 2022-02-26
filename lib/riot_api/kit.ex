@@ -4,9 +4,18 @@ defmodule RiotAPI.Kit do
   """
 
   @doc """
-    Given a MatchDTO, extract a list of participants PUUIDs.
+  Given a MatchDTO, extract a list of participants PUUIDs.
   """
   def match_participants(dto), do: get_in(dto, ["metadata", "participants"])
+
+  @doc """
+  Given a MatchDTO, extract a map of participant PUUIDs to summoner names.
+  """
+  def match_participant_map(dto) do
+    get_in(dto, ["info", "participants"])
+    |> Enum.map(fn p -> {p["puuid"], p["summonerName"]} end)
+    |> Enum.into(%{})
+  end
 
   @doc """
   Given a SummonerDTO, extract the PUUID, which is often necessary as the input to different API
@@ -34,5 +43,5 @@ defmodule RiotAPI.Kit do
   def summoner_region_to_match_region("EU" <> _rest), do: {:ok, "EUROPE"}
   def summoner_region_to_match_region("RU" <> _rest), do: {:ok, "EUROPE"}
   def summoner_region_to_match_region("TR" <> _rest), do: {:ok, "EUROPE"}
-  def summoner_region_to_match_region(region), do: {:error, "unknown region"}
+  def summoner_region_to_match_region(_region), do: {:error, "unknown region"}
 end

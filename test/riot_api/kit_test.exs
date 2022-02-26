@@ -24,6 +24,18 @@ defmodule RiotAPI.KitTest do
     end
   end
 
+  describe "match_participant_map/1" do
+    test "map of PUUIDs to summoner names from valid MatchDTO" do
+      match_dto = "priv/samples/match_dto.json" |> File.read!() |> Jason.decode!()
+
+      participant_map = RiotAPI.Kit.match_participant_map(match_dto)
+
+      assert length(Map.keys(participant_map)) == 10
+      assert participant_map["1V2eCFBB_an5U8QVaM4bvl7jOSDbupDJdb2ggsujQGnmWmRMXosHIIt-eV7qEjUKYjG302tfqhxHwg"] == "allie"
+      assert participant_map["9vzEMHplqMhGIu4tfpwpmtQ7JatpkBvSSf1IMrE7cLbackPkWdWs3rc4NJraCBh2REc2PVNk_caB6g"] == "ImNOTaLoli"
+    end
+  end
+
   describe "summoner_puuid/1" do
     test "PUUID from valid SummonerDTO" do
       summoner_dto = "priv/samples/summoner_dto.json" |> File.read!() |> Jason.decode!()
