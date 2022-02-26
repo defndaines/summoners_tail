@@ -23,10 +23,22 @@ RG_API=RGAPI-### iex -S mix
 
 ## Limitations
 
+### SSL Cert
+
 Note that the first implementation is using straight OTP `:httpc` for making
 request to the Riot Games API. Out of the box, this does not properly verify
 SSL certs, so this will result in a warning when run for the first time:
 ```
 06:59:36.305 [warning] Description: 'Authenticity is not established by certificate path validation'
      Reason: 'Option {verify, verify_peer} and cacertfile/cacerts is missing'
+```
+
+### Testing
+
+Right now, the `RG_API` environment variable has to be set in order to run
+tests. This is not ideal.
+
+Simple workaround for now is to run with an empty variable
+```shell
+RG_API="" mix test
 ```
