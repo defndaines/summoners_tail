@@ -12,9 +12,13 @@ from Riot Games. You can register and attain a key at
 https://developer.riotgames.com/
 Development API keys are good for 24 hours, but are subject to rate limiting.
 
-You can pass the token by setting the environment variable in your shell:
+You can pass the token by setting the environment variable in your shell
 ```shell
 export RG_API=RGAPI-abcdef12-3456-####-####-####-############
+```
+or prefix your call to IEx
+```shell
+RG_API=RGAPI-### iex -S mix
 ```
 
 ## Limitations

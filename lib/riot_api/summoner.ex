@@ -7,6 +7,19 @@ defmodule RiotAPI.Summoner do
 
   When requesting summoner information, a region must always be provided. Valid regions at this
   time are: "BR1", "EUN1", "EUW1", "JP1", "LA1", "LA2", "NA1", "OC1", "RU", "TR1".
+
+  The SummonerDTO, as of v4, is a map like the following:
+  ```
+   %{
+     "accountId" => "nrc0RQ80Yqcn5JZJM1REjRDZASn4sTVDlfDMGXfhaA",
+     "id" => "_i_3eYmgwDKkbZyO9DDFtsTQhu7Vrem_v46ww-bTfoA",
+     "name" => "allie",
+     "profileIconId" => 14,
+     "puuid" => "1V2eCFBB_an5U8QVaM4bvl7jOSDbupDJdb2ggsujQGnmWmRMXosHIIt-eV7qEjUKYjG302tfqhxHwg",
+     "revisionDate" => 1632688564000,
+     "summonerLevel" => 38
+   }}
+  ```
   """
 
   @doc """
