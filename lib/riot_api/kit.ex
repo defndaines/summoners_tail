@@ -4,6 +4,11 @@ defmodule RiotAPI.Kit do
   """
 
   @doc """
+    Given a MatchDTO, extract a list of participants PUUIDs.
+  """
+  def match_participants(dto), do: get_in(dto, ["metadata", "participants"])
+
+  @doc """
   Given a SummonerDTO, extract the PUUID, which is often necessary as the input to different API
   calls.
   """
