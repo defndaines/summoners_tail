@@ -1,21 +1,19 @@
-# SummonersTail
+# Summoners Tail
 
-**TODO: Add description**
+This project tracks a Summoner via the
+[Riot Games API](https://developer.riotgames.com/apis). Given a summoner, it
+will then track the opponent summoners from their last five games, watching
+their activity for an hour.
 
-## Installation
+## Usage
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `summoners_tail` to your list of dependencies in `mix.exs`:
+At this time, this project is expected to run from IEx. It requires a API key
+from Riot Games. You can register and attain a key at
+https://developer.riotgames.com/
+Development API keys are good for 24 hours, but are subject to rate limiting.
 
-```elixir
-def deps do
-  [
-    {:summoners_tail, "~> 0.1.0"}
-  ]
-end
+You can pass the token by setting the environment variable in your shell:
+```shell
+export RG_API=RGAPI-abcdef12-3456-####-####-####-############
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/summoners_tail>.
 
