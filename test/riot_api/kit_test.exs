@@ -31,8 +31,14 @@ defmodule RiotAPI.KitTest do
       participant_map = RiotAPI.Kit.match_participant_map(match_dto)
 
       assert length(Map.keys(participant_map)) == 10
-      assert participant_map["1V2eCFBB_an5U8QVaM4bvl7jOSDbupDJdb2ggsujQGnmWmRMXosHIIt-eV7qEjUKYjG302tfqhxHwg"] == "allie"
-      assert participant_map["9vzEMHplqMhGIu4tfpwpmtQ7JatpkBvSSf1IMrE7cLbackPkWdWs3rc4NJraCBh2REc2PVNk_caB6g"] == "ImNOTaLoli"
+
+      assert participant_map[
+               "1V2eCFBB_an5U8QVaM4bvl7jOSDbupDJdb2ggsujQGnmWmRMXosHIIt-eV7qEjUKYjG302tfqhxHwg"
+             ] == "allie"
+
+      assert participant_map[
+               "9vzEMHplqMhGIu4tfpwpmtQ7JatpkBvSSf1IMrE7cLbackPkWdWs3rc4NJraCBh2REc2PVNk_caB6g"
+             ] == "ImNOTaLoli"
     end
   end
 

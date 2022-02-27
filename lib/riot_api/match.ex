@@ -41,8 +41,8 @@ defmodule RiotAPI.Match do
               {:ok, [String.t()]} | {:error, reason :: term()}
 
   @doc """
-  Get the MatchDTO map given a match ID and a valid region. If no match can be by for that ID, or
-  there is any other issue with retrieving information, identify the error.
+  Get the MatchDTO map given a match ID and a valid region. If no match can be found for that ID,
+  or there is any other issue with retrieving information, identify the error.
   """
   @callback info(match_id :: String.t(), region :: String.t()) ::
               {:ok, match_dto :: map()} | {:error, reason :: term()}

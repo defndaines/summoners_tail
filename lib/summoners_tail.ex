@@ -1,6 +1,8 @@
 defmodule SummonersTail do
   @moduledoc """
-  Documentation for `SummonersTail`.
+  The `SummonersTail` allows a caller to identify other summoners a player has recently played
+  with (last five matches). Once those summoners are identified, it will track them for the next
+  hour, reporting any new matches they have completed.
   """
 
   alias RiotAPI.HTTPC.Match
@@ -10,7 +12,11 @@ defmodule SummonersTail do
   require Logger
 
   @doc """
-  Get a list of recent summoners (by name) a given summoner has played with.
+  Get a list of recent summoners (by name) a given summoner has played with. The region provided
+  must match that expected by the Summoner API, for example "NA1" or "BR1".
+
+  If there is any problem, like an invalid token or name, or issues communicating with the Riot
+  Games API, then an `{:error, _}` tuple will be returned.
   """
   def recent_summoners(summoner_name, region) do
     with {:ok, summoner} <- Summoner.by_name(summoner_name, region),
@@ -26,6 +32,7 @@ defmodule SummonersTail do
   end
 
   # Grab the MatchDTO for each match ID and extract the participants.
+  # When there is an error, log it and pass the accumulated values back.
   defp match_participants(match_ids, match_region) do
     match_ids
     |> Enum.map(fn match_id -> Task.async(fn -> Match.info(match_id, match_region) end) end)
