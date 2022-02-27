@@ -10,7 +10,7 @@ defmodule Monitor do
   alias RiotAPI.HTTPC.Match
 
   # Run once per minute (in milliseconds).
-  @period 60000
+  @period 60_000
 
   def start(), do: GenServer.start_link(__MODULE__, [])
 
@@ -77,7 +77,7 @@ defmodule Monitor do
 
       {:error, %{code: 429, message: 'Too Many Requests'}} ->
         # If we are hitting the rate limit, drop monitoring.
-        Logger.warn("Exceeding rate limit for provided account")
+        Logger.warn("Exceeding rate limit for provided account, dropping #{puuid}")
         %{}
 
       error ->

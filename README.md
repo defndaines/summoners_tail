@@ -10,6 +10,7 @@ their activity for an hour.
 At this time, this project is expected to run from IEx. It requires a API key
 from Riot Games. You can register and attain a key at
 https://developer.riotgames.com/
+
 Development API keys are good for 24 hours, but are subject to rate limiting.
 
 You can pass the token by setting the environment variable in your shell
@@ -43,12 +44,13 @@ supports spaces in names and so this needed to be covered.
 ### SSL Cert
 
 Note that the first implementation is using straight OTP `:httpc` for making
-request to the Riot Games API. Out of the box, this does not properly verify
+requests to the Riot Games API. Out of the box, this does not properly verify
 SSL certs, so this will result in a warning when run like
 ```
 06:59:36.305 [warning] Description: 'Authenticity is not established by certificate path validation'
      Reason: 'Option {verify, verify_peer} and cacertfile/cacerts is missing'
 ```
+The code is set to `verify_none` for now to quiet the logging.
 
 ### Testing
 
