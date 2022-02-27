@@ -70,3 +70,10 @@ extract this out and ensure that basic flows are covered.
 There is some repetitive code. I generally follow a "rule of three", where
 after the third piece of similar code I abstract it out to a common function.
 There's room for that here, but I haven't tackled it yet.
+
+### Lifecycle
+
+At this time, the `Monitor` is not under supervision, so if it crashes, there
+is no recovery. This is aligned with the expectation that everything is
+running from IEx at the moment. Additionally, there is no shut-down built in,
+although after an hour, there will be no more work for it to do.
