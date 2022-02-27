@@ -19,6 +19,9 @@ defmodule SummonersTail do
   Games API, then an `{:error, _}` tuple will be returned.
   """
   def recent_summoners(summoner_name, region) do
+    # This will quiet the log message until there's time to address cert issues.
+    :httpc.set_options(socket_opts: [verify: :verify_none])
+
     with {:ok, summoner} <- Summoner.by_name(summoner_name, region),
          puuid <- Kit.summoner_puuid(summoner),
          {:ok, match_region} <- Kit.summoner_region_to_match_region(region),
@@ -26,6 +29,13 @@ defmodule SummonersTail do
       {_summoner_name, participants} =
         match_participants(match_ids, match_region)
         |> Map.pop(puuid)
+
+      # Start a monitor to track these participants.
+      {:ok, monitor} = Monitor.start()
+
+      for summoner_tuple <- participants do
+        Monitor.add_summoner(monitor, summoner_tuple, match_region)
+      end
 
       Map.values(participants)
     end

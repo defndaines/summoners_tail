@@ -30,7 +30,7 @@ defmodule RiotAPI.KitTest do
 
       participant_map = RiotAPI.Kit.match_participant_map(match_dto)
 
-      assert length(Map.keys(participant_map)) == 10
+      assert map_size(participant_map) == 10
 
       assert participant_map[
                "1V2eCFBB_an5U8QVaM4bvl7jOSDbupDJdb2ggsujQGnmWmRMXosHIIt-eV7qEjUKYjG302tfqhxHwg"
