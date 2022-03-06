@@ -1,4 +1,4 @@
-defmodule Monitor do
+defmodule SummonersTail.Monitor do
   @moduledoc """
   Server for tracking summoners and any new matches they've completed.
   """
@@ -9,8 +9,7 @@ defmodule Monitor do
 
   alias RiotAPI.HTTPC.Match
 
-  # Run once per minute (in milliseconds).
-  @period 60_000
+  @period :timer.minutes(1)
 
   def start(), do: GenServer.start_link(__MODULE__, [])
 
@@ -31,6 +30,11 @@ defmodule Monitor do
        }}
     )
   end
+
+  # ##########
+  # GenServer bits
+
+  def start_link(_opts), do: GenServer.start_link(__MODULE__, [], name: __MODULE__)
 
   @impl GenServer
   def init(state) do
@@ -66,6 +70,9 @@ defmodule Monitor do
   def handle_cast({:add, summoner}, state) do
     {:noreply, [summoner | state]}
   end
+
+  # ##########
+  # Support functions
 
   defp schedule_check(), do: Process.send_after(self(), :check, @period)
 

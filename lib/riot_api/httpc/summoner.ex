@@ -7,7 +7,7 @@ defmodule RiotAPI.HTTPC.Summoner do
 
   @valid_regions ~w{BR1 EUN1 EUW1 JP1 LA1 LA2 NA1 OC1 RU TR1}
 
-  @api_token System.fetch_env!("RG_API")
+  @api_token Application.compile_env(:riot, :api_token)
 
   @impl RiotAPI.Summoner
   def by_name(name, region) when region in @valid_regions do
