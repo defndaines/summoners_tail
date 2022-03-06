@@ -1,8 +1,6 @@
 defmodule RiotAPI.SummonerTest do
   use ExUnit.Case
-
   import Tesla.Mock
-
   alias RiotAPI.Summoner
 
   describe "by_name/2" do

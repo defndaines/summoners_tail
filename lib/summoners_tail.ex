@@ -5,9 +5,7 @@ defmodule SummonersTail do
   hour, reporting any new matches they have completed.
   """
 
-  alias RiotAPI.HTTPC.Match
-  alias RiotAPI.Kit
-  alias RiotAPI.Summoner
+  alias RiotAPI.{Kit, Match, Summoner}
   alias SummonersTail.Monitor
 
   require Logger

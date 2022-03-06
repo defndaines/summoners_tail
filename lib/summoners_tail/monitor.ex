@@ -7,11 +7,9 @@ defmodule SummonersTail.Monitor do
 
   require Logger
 
-  alias RiotAPI.HTTPC.Match
+  alias RiotAPI.Match
 
   @period :timer.minutes(1)
-
-  def start(), do: GenServer.start_link(__MODULE__, [])
 
   @doc """
   Add a summoner to be monitored. To monitor, we need the PUUID and name of the summoner, as well
@@ -89,7 +87,7 @@ defmodule SummonersTail.Monitor do
       {:ok, match_ids} ->
         %{summoner | matches: match_ids}
 
-      {:error, %{code: 429, message: 'Too Many Requests'}} ->
+      {:error, "Rate limit exceeded"} ->
         # If we are hitting the rate limit, drop monitoring.
         Logger.warn("Exceeding rate limit for provided account, dropping #{puuid}")
         %{}

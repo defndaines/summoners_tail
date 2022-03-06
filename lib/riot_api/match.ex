@@ -1,6 +1,6 @@
 defmodule RiotAPI.Match do
   @moduledoc """
-  Behaviour module for interacting with the Riot Games API for Matches. 
+  Module for interacting with the Riot Games API for Matches. 
 
   Documentation for the latest version of the API at the time of writing is
   https://developer.riotgames.com/apis#match-v5
@@ -31,19 +31,70 @@ defmodule RiotAPI.Match do
   ```
   """
 
+  use Tesla
+
+  require Logger
+
+  @api_token Application.compile_env(:summoners_tail, :api_token)
+  @url_fragment Application.compile_env(:summoners_tail, :base_uri_fragment)
+  @valid_regions ~w{AMERICAS ASIA EUROPE}
+
+  plug(Tesla.Middleware.Headers, [{"X-Riot-Token", @api_token}])
+  plug(Tesla.Middleware.JSON)
+
   @doc """
   Get a list of the most recent match IDs for a given PUUID (Player Universally Unique ID). Must
   pass a region. Optional count can be passed, otherwise the five most recent match IDs will be
   returned. If no matches can be found by that PUUID, or there is any other issue with retrieving
   information, identify the error.
   """
-  @callback recent(puuid :: String.t(), region :: String.t(), count :: pos_integer()) ::
-              {:ok, [String.t()]} | {:error, reason :: term()}
+  @spec recent(puuid :: String.t(), region :: String.t(), count :: pos_integer()) ::
+          {:ok, [String.t()]} | {:error, reason :: term()}
+  def recent(puuid, region, count \\ 5)
+
+  def recent(puuid, region, count) when region in @valid_regions do
+    url =
+      Enum.join([
+        "https://",
+        String.downcase(region),
+        @url_fragment,
+        "match/v5/matches/by-puuid/",
+        puuid,
+        "/ids?",
+        URI.encode_query(%{"start" => 0, "count" => count})
+      ])
+
+    case get(url) do
+      {:ok, %Tesla.Env{status: 200, body: body}} -> {:ok, body}
+      {:ok, %Tesla.Env{body: %{"status" => %{"message" => message}}}} -> {:error, message}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  def recent(_, _, _), do: {:error, "invalid region"}
 
   @doc """
   Get the MatchDTO map given a match ID and a valid region. If no match can be found for that ID,
   or there is any other issue with retrieving information, identify the error.
   """
-  @callback info(match_id :: String.t(), region :: String.t()) ::
-              {:ok, match_dto :: map()} | {:error, reason :: term()}
+  @spec info(match_id :: String.t(), region :: String.t()) ::
+          {:ok, match_dto :: map()} | {:error, reason :: term()}
+  def info(match_id, region) when region in @valid_regions do
+    url =
+      Enum.join([
+        "https://",
+        String.downcase(region),
+        @url_fragment,
+        "match/v5/matches/",
+        match_id
+      ])
+
+    case get(url) do
+      {:ok, %Tesla.Env{status: 200, body: body}} -> {:ok, body}
+      {:ok, %Tesla.Env{body: %{"status" => %{"message" => message}}}} -> {:error, message}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  def info(_, _), do: {:error, "invalid region"}
 end
