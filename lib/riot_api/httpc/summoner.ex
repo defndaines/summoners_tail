@@ -7,7 +7,8 @@ defmodule RiotAPI.HTTPC.Summoner do
 
   @valid_regions ~w{BR1 EUN1 EUW1 JP1 LA1 LA2 NA1 OC1 RU TR1}
 
-  @api_token Application.compile_env(:riot, :api_token)
+  @api_token Application.compile_env(:summoners_tail, :api_token)
+  @url_fragment Application.compile_env(:summoners_tail, :base_uri_fragment)
 
   @impl RiotAPI.Summoner
   def by_name(name, region) when region in @valid_regions do
@@ -15,7 +16,8 @@ defmodule RiotAPI.HTTPC.Summoner do
       Enum.join([
         "https://",
         String.downcase(region),
-        ".api.riotgames.com/lol/summoner/v4/summoners/by-name/",
+        @url_fragment,
+        "summoner/v4/summoners/by-name/",
         URI.encode(name)
       ])
 

@@ -17,9 +17,9 @@ defmodule SummonersTail.Monitor do
   Add a summoner to be monitored. To monitor, we need the PUUID and name of the summoner, as well
   as the `match_region`, which is one of AMERICAS, ASIA, or EUROPE.
   """
-  def add_summoner(monitor, {puuid, name}, match_region) do
+  def add_summoner({puuid, name}, match_region) do
     GenServer.cast(
-      monitor,
+      __MODULE__,
       {:add,
        %{
          region: match_region,
@@ -44,7 +44,7 @@ defmodule SummonersTail.Monitor do
 
   @impl GenServer
   def handle_info(:check, state) do
-    # Check each summoner independently, potentially removing them from the state if they are not
+    # Check each summoner independently, potentially removing them from the state if they are no
     # longer monitored.
     new_state =
       state
@@ -68,13 +68,14 @@ defmodule SummonersTail.Monitor do
 
   @impl GenServer
   def handle_cast({:add, summoner}, state) do
+    # TODO: Schedule removal
     {:noreply, [summoner | state]}
   end
 
   # ##########
   # Support functions
 
-  defp schedule_check(), do: Process.send_after(self(), :check, @period)
+  defp schedule_check(), do: Process.send_after(__MODULE__, :check, @period)
 
   defp check_summoner(%{puuid: puuid, region: region, matches: []} = summoner) do
     # When there are no matches recorded for a summoner, we only need to look them up.

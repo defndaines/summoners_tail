@@ -7,7 +7,8 @@ defmodule RiotAPI.HTTPC.Match do
 
   @valid_regions ~w{AMERICAS ASIA EUROPE}
 
-  @api_token System.fetch_env!("RG_API")
+  @api_token Application.compile_env(:summoners_tail, :api_token)
+  @url_fragment Application.compile_env(:summoners_tail, :base_uri_fragment)
 
   @impl RiotAPI.Match
   def recent(puuid, region, count \\ 5)
@@ -17,7 +18,8 @@ defmodule RiotAPI.HTTPC.Match do
       Enum.join([
         "https://",
         String.downcase(region),
-        ".api.riotgames.com/lol/match/v5/matches/by-puuid/",
+        @url_fragment,
+        "match/v5/matches/by-puuid/",
         puuid,
         "/ids?",
         URI.encode_query(%{"start" => 0, "count" => count})
@@ -48,7 +50,8 @@ defmodule RiotAPI.HTTPC.Match do
       Enum.join([
         "https://",
         String.downcase(region),
-        ".api.riotgames.com/lol/match/v5/matches/",
+        @url_fragment,
+        "match/v5/matches/",
         match_id
       ])
 

@@ -8,6 +8,7 @@ defmodule SummonersTail do
   alias RiotAPI.HTTPC.Match
   alias RiotAPI.HTTPC.Summoner
   alias RiotAPI.Kit
+  alias SummonersTail.Monitor
 
   require Logger
 
@@ -30,11 +31,8 @@ defmodule SummonersTail do
         match_participants(match_ids, match_region)
         |> Map.pop(puuid)
 
-      # Start a monitor to track these participants.
-      {:ok, monitor} = Monitor.start()
-
       for summoner_tuple <- participants do
-        Monitor.add_summoner(monitor, summoner_tuple, match_region)
+        Monitor.add_summoner(summoner_tuple, match_region)
       end
 
       Map.values(participants)
