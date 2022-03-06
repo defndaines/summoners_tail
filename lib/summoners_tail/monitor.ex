@@ -67,8 +67,14 @@ defmodule SummonersTail.Monitor do
   end
 
   @impl GenServer
+  def handle_info({:remove, %{name: name} = summoner}, state) do
+    Logger.debug("No longer monitoring #{name}")
+    {:noreply, state -- [summoner]}
+  end
+
+  @impl GenServer
   def handle_cast({:add, summoner}, state) do
-    # TODO: Schedule removal
+    Process.send_after(__MODULE__, {:remove, summoner}, :timer.hours(1))
     {:noreply, [summoner | state]}
   end
 
@@ -96,6 +102,7 @@ defmodule SummonersTail.Monitor do
 
   defp check_summoner(%{name: name, stop_at: stop_at} = summoner) do
     # If we have passed the deadline, stop monitoring.
+    # We double checking whether to stop monitoring in case server is restarted with state.
     case DateTime.compare(DateTime.now!("Etc/UTC"), stop_at) do
       :lt ->
         update_matches(summoner)
