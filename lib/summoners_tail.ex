@@ -6,8 +6,8 @@ defmodule SummonersTail do
   """
 
   alias RiotAPI.HTTPC.Match
-  alias RiotAPI.HTTPC.Summoner
   alias RiotAPI.Kit
+  alias RiotAPI.Summoner
   alias SummonersTail.Monitor
 
   require Logger
