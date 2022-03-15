@@ -7,7 +7,7 @@ their activity for an hour.
 
 ## Usage
 
-At this time, this project is expected to run from IEx. It requires a API key
+At this time, this project is expected to run from IEx. It requires an API key
 from Riot Games. You can register and attain a key at
 https://developer.riotgames.com/
 
