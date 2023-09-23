@@ -9,7 +9,7 @@ defmodule SummonersTail.Monitor do
 
   alias RiotAPI.Match
 
-  @period :timer.minutes(1)
+  @period_ms :timer.minutes(1)
 
   @doc """
   Add a summoner to be monitored. To monitor, we need the PUUID and name of the summoner, as well
@@ -79,7 +79,7 @@ defmodule SummonersTail.Monitor do
   # ##########
   # Support functions
 
-  defp schedule_check(), do: Process.send_after(__MODULE__, :check, @period)
+  defp schedule_check(), do: Process.send_after(__MODULE__, :check, @period_ms)
 
   defp check_summoner(%{puuid: puuid, region: region, matches: []} = summoner) do
     # When there are no matches recorded for a summoner, we only need to look them up.
